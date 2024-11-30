@@ -5,14 +5,7 @@ import User from "../models/User"
 import { hashPassword,checkPassword } from '../utils/auth'
 
 export const createAccount=async (req:Request,res:Response)=>{
-    //manejar errores
-    let errors =validationResult(req)
-    console.log(errors)
-    if(!errors.isEmpty()){        
-        res.status(400).json({errors:errors.array()})
-        return
-    }
-
+   
 
     const {email,password}=req.body
     const userExists=await User.findOne({email})
@@ -44,14 +37,7 @@ export const createAccount=async (req:Request,res:Response)=>{
 }
 
 export const login=async(req:Request,res:Response)=>{
-    //manejar errores
-    let errors =validationResult(req)
-    console.log(errors)
-    if(!errors.isEmpty()){        
-        res.status(400).json({errors:errors.array()})
-        return
-    }
-    console.log("desde login")
+  
 
     //revisar si el usuari existe
     const {email,password}=req.body
