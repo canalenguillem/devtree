@@ -1,9 +1,17 @@
 import type {Request,Response} from 'express'
+import {validationResult} from 'express-validator'
 import slug from 'slug';
 import User from "../models/User"
 import { hashPassword } from '../utils/auth'
 
 export const createAccount=async (req:Request,res:Response)=>{
+    //manejar errores
+    let errors =validationResult(req)
+    console.log(errors)
+    if(!errors.isEmpty()){        
+        res.status(400).json({errors:errors.array()})
+        return
+    }
 
 
     const {email,password}=req.body
