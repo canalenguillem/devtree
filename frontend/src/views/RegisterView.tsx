@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import ErrorMessage from "../Components/ErrorMessage";
 
 function RegisterView() {
   const {
@@ -31,6 +32,7 @@ function RegisterView() {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("name", { required: "El nombre es obligatorio" })}
           />
+          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="email" className="text-2xl text-slate-500">
@@ -43,6 +45,7 @@ function RegisterView() {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("email", { required: "El email es obligatorio" })}
           />
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="handle" className="text-2xl text-slate-500">
@@ -55,6 +58,9 @@ function RegisterView() {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("handle", { required: "El handle es obligatorio" })}
           />
+          {errors.handle && (
+            <ErrorMessage>{errors.handle.message}</ErrorMessage>
+          )}
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="password" className="text-2xl text-slate-500">
@@ -69,6 +75,9 @@ function RegisterView() {
               required: "El password es obligatorio",
             })}
           />
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
         </div>
 
         <div className="grid grid-cols-1 space-y-3">
@@ -84,9 +93,12 @@ function RegisterView() {
             placeholder="Repetir Password"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("password_confirmations", {
-              required: "El password es obligatorio",
+              required: "Debes confirmar el password",
             })}
           />
+          {errors.password_confirmations && (
+            <ErrorMessage>{errors.password_confirmations.message}</ErrorMessage>
+          )}
         </div>
 
         <input
