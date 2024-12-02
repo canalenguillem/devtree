@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import type { RegisterForm } from "../types";
 import ErrorMessage from "../Components/ErrorMessage";
 
 function RegisterView() {
-  const initialValues = {
+  const initialValues: RegisterForm = {
     name: "",
     email: "",
     handle: "",
@@ -20,9 +21,9 @@ function RegisterView() {
 
   const password = watch("password");
 
-  const handleRegister = (data) => {
+  const handleRegister = (formData: RegisterForm) => {
     // Send data to the server
-    console.log("from handle", data);
+    console.log("from handle", formData);
   };
   return (
     <>
