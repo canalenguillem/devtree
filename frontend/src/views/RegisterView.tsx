@@ -18,6 +18,8 @@ function RegisterView() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
+  const password = watch("password");
+
   const handleRegister = (data) => {
     // Send data to the server
     console.log("from handle", data);
@@ -51,7 +53,13 @@ function RegisterView() {
             type="email"
             placeholder="Email de Registro"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-            {...register("email", { required: "El email es obligatorio" })}
+            {...register("email", {
+              required: "El email es obligatorio",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "E-mail no válido",
+              },
+            })}
           />
           {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
@@ -81,6 +89,10 @@ function RegisterView() {
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register("password", {
               required: "El password es obligatorio",
+              minLength: {
+                value: 8,
+                message: "El password debe tener al menos 8 caracteres",
+              },
             })}
           />
           {errors.password && (
@@ -96,16 +108,18 @@ function RegisterView() {
             Repetir Password
           </label>
           <input
-            id="password_confirmations"
+            id="password_confirmation"
             type="password"
             placeholder="Repetir Password"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-            {...register("password_confirmations", {
+            {...register("password_confirmation", {
               required: "Debes confirmar el password",
+              validate: (value) =>
+                value === password || "Los passwords no son iguales",
             })}
           />
-          {errors.password_confirmations && (
-            <ErrorMessage>{errors.password_confirmations.message}</ErrorMessage>
+          {errors.password_confirmation && (
+            <ErrorMessage>{errors.password_confirmation.message}</ErrorMessage>
           )}
         </div>
 
