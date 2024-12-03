@@ -2,7 +2,8 @@ import {CorsOptions} from 'cors'
 
 export const corsConfig:CorsOptions={
     origin: function(origin,callback){
-        if(origin==="http://localhost:5173"){
+        console.log("env",process.env.FRONTEND_URL)
+        if(origin===process.env.FRONTEND_URL){
             console.log("permitir conexión")
             callback(null,true);
         }else{

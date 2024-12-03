@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import type { RegisterForm } from "../types";
 import ErrorMessage from "../Components/ErrorMessage";
 import axios, { isAxiosError } from "axios";
+import { toast } from "sonner";
 
 function RegisterView() {
   const initialValues: RegisterForm = {
@@ -16,6 +17,7 @@ function RegisterView() {
   const {
     register,
     watch,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
@@ -27,15 +29,19 @@ function RegisterView() {
     console.log("formdata", formData);
     try {
       const response = await axios.post(
-        "http://localhost:4000/auth/register",
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         formData
       );
-      console.log("response", response);
+      console.log("response", response.data.message);
+      toast.success(response.data.message);
+      reset();
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         console.error("Error en el request:", error.response?.data.error);
+        toast.error(error.response?.data.error);
       } else {
         console.error("Error desconocido:", error);
+        toast.error("Error desconocido");
       }
     }
   };
