@@ -57,5 +57,6 @@ export const login=async(req:Request,res:Response)=>{
         return
     }
 
+    console.log("autienticado.....")
     res.send("Autenticado....")
 }
