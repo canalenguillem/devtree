@@ -20,9 +20,10 @@ function LoginView() {
   const handleLogin = async (formData: LoginForm) => {
     console.log(formData);
     try {
-      const response = await api.post(`/auth/login`, formData);
-      console.log("response", response);
-      toast.success(response.data);
+      const { data } = await api.post(`/auth/login`, formData);
+      console.log("response", data);
+      localStorage.setItem("token", data);
+      toast.success(data);
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         console.error("Error en el request:", error.response?.data.error);
