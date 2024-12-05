@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createAccount, login,getUser } from "./handlers";
 import {body} from 'express-validator'
 import { handleInputErrors } from "./middleware/validation";
+import { authenticate } from "./middleware/auth";
 
 const router =Router();
 
@@ -28,6 +29,7 @@ router.post('/auth/login',
 router.get('/user',
     // middleware para verificar la autenticación
     // authenticateToken,
+    authenticate,
     getUser) // handler que devuelve los datos del usuario logueado
 
 
