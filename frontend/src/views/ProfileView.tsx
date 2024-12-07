@@ -22,11 +22,11 @@ export default function ProfileView() {
 
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
-    onError: () => {
-      toast.error("Hubo un error al actualizar el usuario");
+    onError: (error) => {
+      toast.error(error.message);
     },
-    onSuccess: () => {
-      toast.success("Usuario actualizado correctamente");
+    onSuccess: (data) => {
+      toast.success(data);
       // queryClient.setQueryData(["user"], (oldData) => ({
       //  ...oldData,
       //  ...formData,
