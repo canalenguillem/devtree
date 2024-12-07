@@ -70,3 +70,32 @@ export const getUser = async(req:Request,res:Response)=>{
     res.json(req.user) 
 
 }
+
+export const updateProfile=async(req:Request,res:Response)=>{
+    try{
+        const {description}=req.body
+
+        //comprobamos el hanle
+        const handle=slug(req.body.handle,'')
+        const existingHandle=await User.findOne({handle})
+        if(existingHandle && existingHandle.email!==req.user.email){
+            const error=new Error('El handle ya existe')
+            res.status(409).json({error:error.message})
+            return
+        }
+
+
+        //Actualizar el usuario
+        req.user.description=description
+        req.user.handle=handle
+
+        await req.user.save()
+        res.send("Perfil actualizado correctamente")
+
+    }catch(e){
+        console.error("Error en la validación: ",e)
+        const error=new Error('Error actualizando perfil')
+        res.status(500).json({error:error.message})
+        return
+    }
+}

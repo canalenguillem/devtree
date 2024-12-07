@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createAccount, login,getUser } from "./handlers";
+import { createAccount, login,getUser, updateProfile } from "./handlers";
 import {body} from 'express-validator'
 import { handleInputErrors } from "./middleware/validation";
 import { authenticate } from "./middleware/auth";
@@ -31,6 +31,12 @@ router.get('/user',
     // authenticateToken,
     authenticate,
     getUser) // handler que devuelve los datos del usuario logueado
+
+router.patch('/user',
+    body('handle').notEmpty().withMessage("El handle no puede ir vacío"),
+    body('description').notEmpty().withMessage("La descripción no puede ir vacía"),
+    authenticate,
+    updateProfile)
 
 
 
