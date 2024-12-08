@@ -27,6 +27,7 @@ export default function ProfileView() {
     },
     onSuccess: (data) => {
       toast.success(data);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       // queryClient.setQueryData(["user"], (oldData) => ({
       //  ...oldData,
       //  ...formData,

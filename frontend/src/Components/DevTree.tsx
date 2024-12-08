@@ -7,7 +7,7 @@ type DevTreeProps = {
   data: User;
 };
 
-export default function DevTree(data: DevTreeProps) {
+export default function DevTree({ data }: DevTreeProps) {
   return (
     <>
       <header className="bg-slate-800 py-5">
