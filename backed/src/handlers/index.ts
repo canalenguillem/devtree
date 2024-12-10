@@ -1,11 +1,15 @@
 import type {Request,Response} from 'express'
 import {validationResult} from 'express-validator'
 import slug from 'slug';
+import formidable from "formidable"
+import { v4 as uuid} from "uuid"
+
 import User from "../models/User"
 
 import { hashPassword,checkPassword } from '../utils/auth'
 import { generateJWT } from '../utils/jwt';
 import { compareSync } from 'bcrypt';
+import cloudinary from '../config/cloudinary';
 
 export const createAccount=async (req:Request,res:Response)=>{
    
@@ -95,6 +99,31 @@ export const updateProfile=async(req:Request,res:Response)=>{
     }catch(e){
         console.error("Error en la validación: ",e)
         const error=new Error('Error actualizando perfil')
+        res.status(500).json({error:error.message})
+        return
+    }
+}
+
+export const uploadImage=async(req:Request,res:Response)=>{
+    const form=formidable({multiples:false})
+    try{
+        form.parse(req,(errors,fields,files)=>{
+            console.log("FILES____",files.file[0].filepath,"_____")
+            cloudinary.uploader.upload(files.file[0].filepath,{publid_id:uuid()},async function(error,result){
+                if(error){
+                    const error = new Error("hubo un error al subir la imagen")
+                    res.status(500).json({error:error.message})
+                    return
+                }
+                if(result){
+                    console.log(result.secure_url)
+                }
+            })
+        })
+        
+    }catch(e){
+        console.error("Error en la foto: ",e)
+        const error=new Error('Error actualizando foto perfil')
         res.status(500).json({error:error.message})
         return
     }
