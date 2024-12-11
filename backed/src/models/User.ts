@@ -6,6 +6,7 @@ export interface IUser extends Document{
     email:string
     password:string
     description:string
+    image:string
 }
 
 const userSchema=new Schema({
@@ -13,7 +14,8 @@ const userSchema=new Schema({
     name:{type:String, required:true,trim:true},
     email:{type:String, required:true, unique:true,trim:true},
     password:{type:String, required:true,trim:true,lowercasse:true},
-    description:{type:String,default:''}
+    description:{type:String,default:''},
+    image:{type:String,default:''}
 })
 
 const User=mongoose.model<IUser>('User',userSchema)
